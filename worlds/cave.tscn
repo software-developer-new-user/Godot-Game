@@ -1,0 +1,113 @@
+[gd_scene load_steps=14 format=3 uid="uid://b05ccqix45nhr"]
+
+[ext_resource type="Script" path="res://worlds/cave.gd" id="1_dxqp3"]
+[ext_resource type="AudioStream" uid="uid://dq1erq62u4xnv" path="res://assets/bgm/27 14 BOSS fixing LOOP.mp3" id="2_5uj5r"]
+[ext_resource type="PackedScene" uid="uid://d08n7x2g8jvfe" path="res://player.tscn" id="3_k4cy2"]
+[ext_resource type="Script" path="res://classes/ShakyCamera.gd" id="4_27klc"]
+[ext_resource type="Texture2D" uid="uid://dr6002mnejkho" path="res://assets/legacy_fantasy/Props-Rocks.png" id="5_n0pn5"]
+[ext_resource type="Texture2D" uid="uid://dddof00xq1dpo" path="res://assets/legacy_fantasy/HUD.png" id="6_6m1kn"]
+[ext_resource type="PackedScene" uid="uid://bys6xbjr8eger" path="res://enemies/boar.tscn" id="7_26aw3"]
+[ext_resource type="PackedScene" uid="uid://bdmpgpg4vkbbw" path="res://enemies/Ryan.tscn" id="8_3whfc"]
+[ext_resource type="PackedScene" uid="uid://lbvw6d0p7p5r" path="res://enemies/Boss_enemy.tscn" id="8_de1us"]
+[ext_resource type="PackedScene" uid="uid://ysyrfdolrt7i" path="res://Collectible Items/apple.tscn" id="9_ll5qk"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_htmmm"]
+texture = ExtResource("5_n0pn5")
+14:6/0 = 0
+14:6/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+14:6/0/physics_layer_0/angular_velocity = 0.0
+14:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+15:6/0 = 0
+15:6/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+15:6/0/physics_layer_0/angular_velocity = 0.0
+15:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:6/0 = 0
+16:6/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+16:6/0/physics_layer_0/angular_velocity = 0.0
+16:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+14:7/0 = 0
+14:7/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+14:7/0/physics_layer_0/angular_velocity = 0.0
+14:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+15:7/0 = 0
+15:7/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+15:7/0/physics_layer_0/angular_velocity = 0.0
+15:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:7/0 = 0
+16:7/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+16:7/0/physics_layer_0/angular_velocity = 0.0
+16:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+13:7/0 = 0
+13:7/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+13:7/0/physics_layer_0/angular_velocity = 0.0
+13:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+13:6/0 = 0
+13:6/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+13:6/0/physics_layer_0/angular_velocity = 0.0
+13:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7o6gb"]
+texture = ExtResource("6_6m1kn")
+6:7/0 = 0
+6:7/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+6:7/0/physics_layer_0/angular_velocity = 0.0
+6:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:10/0 = 0
+16:10/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+16:10/0/physics_layer_0/angular_velocity = 0.0
+16:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_f2k4q"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_htmmm")
+sources/1 = SubResource("TileSetAtlasSource_7o6gb")
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_dxqp3")
+bgm = ExtResource("2_5uj5r")
+
+[node name="Player" parent="." instance=ExtResource("3_k4cy2")]
+position = Vector2(309, 279)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(0, -14)
+process_callback = 0
+limit_smoothed = true
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+editor_draw_drag_margin = true
+script = ExtResource("4_27klc")
+
+[node name="Decorations" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.372549, 0.372549, 0.372549, 1)
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_f2k4q")
+format = 2
+layer_0/tile_data = PackedInt32Array(983076, 1048577, 10, 983077, 1048577, 10, 983079, 1048577, 10, 983078, 1048577, 10, 983080, 1048577, 10, 983073, 1048577, 10, 983074, 1048577, 10, 983075, 1048577, 10, 983081, 1048577, 10, 1179661, 917504, 6, 1179662, 917504, 6, 1179663, 917504, 6, 1179664, 917504, 6, 1179665, 917504, 6, 1179666, 917504, 6, 1179667, 917504, 6, 1179668, 917504, 6, 1179669, 917504, 6, 1179670, 917504, 6, 1179671, 917504, 6, 1179672, 917504, 6, 1179673, 917504, 6, 1179674, 917504, 6, 1179675, 917504, 6, 1179676, 917504, 6, 1179677, 917504, 6, 1179678, 917504, 6, 1179679, 917504, 6, 1179680, 917504, 6, 1179681, 917504, 6, 1179682, 917504, 6, 1179683, 917504, 6, 1179684, 917504, 6, 1179685, 917504, 6, 1179688, 917504, 6, 1179687, 917504, 6, 1179686, 917504, 6, 1179689, 917504, 6, 983071, 393217, 7, 851996, 1048577, 10, 851995, 1048577, 10, 851994, 1048577, 10, 851993, 1048577, 10, 851992, 1048577, 10, 851991, 1048577, 10, 851990, 1048577, 10, 851989, 1048577, 10, 851988, 1048577, 10, 851987, 1048577, 10, 851986, 1048577, 10, 851985, 1048577, 10, 851984, 1048577, 10, 1179690, 917504, 6, 1179691, 917504, 6, 1179692, 917504, 6, 1179693, 917504, 6, 1179660, 917504, 6, 1179658, 917504, 6, 1179659, 917504, 6, 393261, 917504, 6, 458797, 917504, 6, 524333, 917504, 6, 589869, 917504, 6, 655405, 917504, 6, 720941, 917504, 6, 786477, 917504, 6, 852013, 917504, 6, 1114157, 917504, 6, 1048621, 917504, 6, 983085, 917504, 6, 917549, 917504, 6, 1114121, 917504, 6, 1048585, 917504, 6, 983049, 917504, 6, 917513, 917504, 6, 851977, 917504, 6, 786441, 917504, 6, 720905, 917504, 6, 655369, 917504, 6, 589833, 917504, 6, 524297, 917504, 6, 458761, 917504, 6, 1179657, 917504, 6, 589855, 851968, 7, 589856, 851968, 7, 589857, 851968, 7, 589858, 851968, 7, 589859, 851968, 7, 589860, 851968, 7, 589861, 851968, 7, 589862, 851968, 7, 589863, 851968, 7, 589864, 851968, 7, 589865, 851968, 7, 589866, 851968, 7, 589850, 851968, 7, 589849, 851968, 7, 589848, 851968, 7, 589847, 851968, 7, 589846, 851968, 7, 589845, 851968, 7, 589844, 851968, 7, 589843, 851968, 7, 589842, 851968, 7, 589841, 851968, 7, 589840, 851968, 7, 589839, 851968, 7, 589838, 851968, 7, 655389, 851968, 6, 589837, 851968, 7, 327725, 917504, 6, 262189, 917504, 6, 196653, 851968, 6, 393256, 393217, 7, 393257, 393217, 7, 393258, 393217, 7)
+
+[node name="Boar" parent="." instance=ExtResource("7_26aw3")]
+position = Vector2(617, 237)
+
+[node name="Ryan" parent="." instance=ExtResource("8_3whfc")]
+position = Vector2(662, 72)
+
+[node name="boss" parent="." instance=ExtResource("8_de1us")]
+position = Vector2(603, 135)
+
+[node name="Apple2" parent="." instance=ExtResource("9_ll5qk")]
+position = Vector2(415, 272)
+
+[node name="Apple" parent="." instance=ExtResource("9_ll5qk")]
+position = Vector2(562, 226)
+
+[node name="Apple3" parent="." instance=ExtResource("9_ll5qk")]
+position = Vector2(322, 202)
+
+[connection signal="died" from="boss" to="." method="_on_boss_died"]
+[connection signal="body_entered" from="Apple" to="." method="_on_apple_body_entered"]

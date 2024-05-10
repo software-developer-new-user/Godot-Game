@@ -1,0 +1,109 @@
+[gd_scene load_steps=13 format=3 uid="uid://bdmpgpg4vkbbw"]
+
+[ext_resource type="Texture2D" uid="uid://bblnlf454no7s" path="res://enemies/Ryan-Idle-Sheet.png" id="1_bxrua"]
+[ext_resource type="Script" path="res://classes/Hurtbox.gd" id="2_lwcmr"]
+[ext_resource type="Script" path="res://classes/Hitbox.gd" id="3_sbnam"]
+[ext_resource type="AudioStream" uid="uid://76ti8jo7eci8" path="res://assets/sfx/win_the_game.mp3" id="4_xa2wh"]
+
+[sub_resource type="GDScript" id="GDScript_lxm3l"]
+script/source = "class_name collectibles
+extends Area2D
+@onready var get_hit: AudioStreamPlayer = $get_hit
+
+
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	#connect(\"body_entered\", _on_body_entered)
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.name == \"Player\":
+		get_hit.play()
+
+		await get_hit.finished
+		Game.change_scene(\"res://ui/game_end_screen.tscn\", {
+		duration=0.1,
+	})
+		print(\"Collected\")
+
+
+
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6j3fh"]
+atlas = ExtResource("1_bxrua")
+region = Rect2(0, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylafr"]
+atlas = ExtResource("1_bxrua")
+region = Rect2(64, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w1ptx"]
+atlas = ExtResource("1_bxrua")
+region = Rect2(128, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nriqf"]
+atlas = ExtResource("1_bxrua")
+region = Rect2(192, 0, 64, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_su8yo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6j3fh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylafr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w1ptx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nriqf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_asfcv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hpxrc"]
+
+[node name="Ryan" type="Area2D"]
+collision_mask = 2
+script = SubResource("GDScript_lxm3l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_su8yo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("2_lwcmr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_asfcv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_hpxrc")
+
+[node name="Hitbox" type="Area2D" parent="."]
+script = ExtResource("3_sbnam")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_hpxrc")
+
+[node name="get_hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_xa2wh")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="hurt" from="Hurtbox" to="." method="_on_hurtbox_hurt"]

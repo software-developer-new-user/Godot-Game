@@ -1,0 +1,139 @@
+[gd_scene load_steps=17 format=3 uid="uid://ysyrfdolrt7i"]
+
+[ext_resource type="Texture2D" uid="uid://dcw0csparv5vv" path="res://Collectible Items/Pineapple.png" id="1_h8wwl"]
+[ext_resource type="Script" path="res://classes/Hurtbox.gd" id="2_pk342"]
+[ext_resource type="Script" path="res://classes/Hitbox.gd" id="3_fv7ti"]
+[ext_resource type="AudioStream" uid="uid://cbgxtkl5ukpqa" path="res://assets/sfx/HealthPack.mp3" id="4_l3xcr"]
+
+[sub_resource type="GDScript" id="GDScript_lxm3l"]
+script/source = "class_name collectibles
+extends Area2D
+@onready var get_hit: AudioStreamPlayer = $get_hit
+@onready var apple: collectibles = $\".\"
+
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	#connect(\"body_entered\", _on_body_entered)
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.name == \"Player\":
+		get_hit.play()
+		apple.hide()
+		if body.stats.health < body.stats.max_health:
+			body.stats.health += 1
+			print(body.stats.health)
+		await get_hit.finished
+		
+		queue_free()
+		print(\"Collected\")
+
+
+
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x332n"]
+atlas = ExtResource("1_h8wwl")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1kfj"]
+atlas = ExtResource("1_h8wwl")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8v8b4"]
+atlas = ExtResource("1_h8wwl")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kt4e6"]
+atlas = ExtResource("1_h8wwl")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ceuwm"]
+atlas = ExtResource("1_h8wwl")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x352h"]
+atlas = ExtResource("1_h8wwl")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fuiqj"]
+atlas = ExtResource("1_h8wwl")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xxxw5"]
+atlas = ExtResource("1_h8wwl")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_su8yo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x332n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1kfj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8v8b4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kt4e6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ceuwm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x352h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fuiqj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xxxw5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_asfcv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hpxrc"]
+
+[node name="Apple" type="Area2D"]
+collision_mask = 2
+script = SubResource("GDScript_lxm3l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_su8yo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("2_pk342")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_asfcv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_hpxrc")
+
+[node name="Hitbox" type="Area2D" parent="."]
+script = ExtResource("3_fv7ti")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_hpxrc")
+
+[node name="get_hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_l3xcr")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="hurt" from="Hurtbox" to="." method="_on_hurtbox_hurt"]
